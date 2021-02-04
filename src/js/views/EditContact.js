@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 
-const EditContact = () => {
-	const { actions } = useContext(Context);
+const EditContact = props => {
+	const { store, actions } = useContext(Context);
 	const [phone, setPhone] = useState("");
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [address, setAddress] = useState("");
+	console.log("try", store.contacts);
 
 	return (
 		<div className="container">
@@ -21,6 +22,7 @@ const EditContact = () => {
 							type="text"
 							className="form-control"
 							placeholder="Full Name"
+							defaultValue={store.contacts[props.match.params.index].full_name}
 							onChange={e => setName(e.target.value)}
 						/>
 					</div>
@@ -30,6 +32,7 @@ const EditContact = () => {
 							type="email"
 							className="form-control"
 							placeholder="Enter email"
+							defaultValue={store.contacts[props.match.params.index].email}
 							onChange={e => setEmail(e.target.value)}
 						/>
 					</div>
@@ -39,6 +42,7 @@ const EditContact = () => {
 							type="phone"
 							className="form-control"
 							placeholder="Enter phone"
+							defaultValue={store.contacts[props.match.params.index].phone}
 							onChange={e => setPhone(e.target.value)}
 						/>
 					</div>
@@ -48,6 +52,7 @@ const EditContact = () => {
 							type="text"
 							className="form-control"
 							placeholder="Enter address"
+							defaultValue={store.contacts[props.match.params.index].address}
 							onChange={e => setAddress(e.target.value)}
 						/>
 					</div>
@@ -55,7 +60,7 @@ const EditContact = () => {
 						type="button"
 						className="btn btn-primary form-control"
 						onClick={() => {
-							actions.addContact(name, phone, email, address);
+							actions.EditContact(props.match.params.id, name, phone, email, address);
 						}}>
 						save
 					</button>
@@ -66,6 +71,10 @@ const EditContact = () => {
 			</div>
 		</div>
 	);
+};
+
+EditContact.propTypes = {
+	match: PropTypes.object
 };
 
 export default EditContact;
